@@ -143,16 +143,47 @@ Dockerfile: where developers describe their apps and how they work, and for ops 
 
 ### Containerize an App
 
-- Instructions for building images
-- CAPITALIZE instructions
-- <'INSTRUCTION'> <'value'>
-- FROM = base image
-- Good practice to list maintainer
-- RUN = execute command and create layer
-- COPY = copy code into image as new layer
-- Some instructions add metadada instead of layers
-- ENTRYPOINT = default app for image/container
+1. Instructions for building images
+
+   - CAPITALIZE instructions
+   - <'INSTRUCTION'> <'value'>
+   - FROM = base image
+   - Good practice to list maintainer
+   - RUN = execute command and create layer
+   - COPY = copy code into image as new layer
+   - Some instructions add metadada instead of layers
+   - ENTRYPOINT = default app for image/container
+
+2. create a `Dockerfile`
+
+3. Build your image
+
+```bash
+docker image build -t `myAppNameTag` .
+```
+
+4. running the image
+
+```bash
+docker image ls
+```
+
+```bash
+docker container run -d --name `nameYourContainer` -p `host-port`:`container-port` `myAppNameTag`
+```
 
 ### Dig Deeper
 
+**Build Context**: Location of my code in my machine.
+
+It is possible to build from git repo as well! Run the following command to run from git repo:
+
+```bash
+docker image build -t thesaurus https://github.com/mehdihasan/springboot-thesaurus-app.git
+```
+
 ### Multi-stage Builds
+
+```
+
+```
