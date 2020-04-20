@@ -184,6 +184,8 @@ docker image build -t thesaurus https://github.com/mehdihasan/springboot-thesaur
 
 ### Multi-stage Builds
 
-```
+Very interesting topics! The concept is to build my expected image step by step. In the last stage, may be the production build, it will going to take only the output layers from the each stage, and build the final image out from those! Do you know why do they put the Dockerfile into the app directory other than the root directory?
 
-```
+[example](https://github.com/mehdihasan/atsea-sample-shop-app/blob/master/app/Dockerfile)
+
+## Working with Containers
