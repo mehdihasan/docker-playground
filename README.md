@@ -240,3 +240,13 @@ docker container rm $(docker container ls -aq) -f
 - we can set default logging driver in `daemon.json`
 - it is possible to override per container with `--log-driver` & || `--log-opts`
 - inspect logs with `docker logs <container>`
+
+## Building Secure Swarm
+
+### The big picture
+
+### Swarm clustering deep dive
+
+### Building a secure swarm
+
+### Orchestration
