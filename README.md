@@ -189,3 +189,54 @@ Very interesting topics! The concept is to build my expected image step by step.
 [example](https://github.com/mehdihasan/atsea-sample-shop-app/blob/master/app/Dockerfile)
 
 ## Working with Containers
+
+the most atomic unit - container.
+in k8s - pod.
+
+1. here `-it` stands for `interactive terminal`
+
+```bash
+docker container run -it alpine sh
+```
+
+2. Here what is `-d` and `sleep 1d` doing?
+
+```bash
+docker container run -d alpine sleep 1d
+```
+
+3. You might want to run a single command inside a container. And you are lazy enough to avoid get inside the container using the `-it` command.
+
+```bash
+docker container exec <CONTAINER-ID> ls -al
+docker container exec <CONTAINER-ID> cat newFile
+```
+
+4. do you want to remove all your containers?
+
+```bash
+docker container rm $(docker container ls -aq) -f
+```
+
+### Container & logging
+
+#### Engine/Daemon logs
+
+**Linux**
+
+- systemd
+  - journalctl -u docker.service
+- non systemd
+  - try /var/log/messages
+
+**Windows**
+~/AppData/Local/Docker
+
+#### Container/App logs
+
+- STDOUT, STDERR
+- It is possible to collect the docker logs and forward those to existing logging solution system like
+  Syslog, Gelf, Splunk.
+- we can set default logging driver in `daemon.json`
+- it is possible to override per container with `--log-driver` & || `--log-opts`
+- inspect logs with `docker logs <container>`
