@@ -39,7 +39,7 @@ there are two types of windows containers
 | Attempt | Native windows containers | Hyper-V Containers |
 | :---: | :---: | :---: |
 | os tech | Namespace isolation | VM, but less performance than a full blown VM |
-| kernel/os | Uses hosts kurnel | not using the host's karnet, have own OS |
+| kernel/os | Uses hosts kernel | not using the host's karnet, have own OS |
 | linux | can't have linux here | as it can have it's own karnel and OS, so we can have linux here |
 | run | docker container run .. | docker container run --isolation=hyperv |
 
