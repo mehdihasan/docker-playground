@@ -143,16 +143,110 @@ Dockerfile: where developers describe their apps and how they work, and for ops 
 
 ### Containerize an App
 
-- Instructions for building images
-- CAPITALIZE instructions
-- <'INSTRUCTION'> <'value'>
-- FROM = base image
-- Good practice to list maintainer
-- RUN = execute command and create layer
-- COPY = copy code into image as new layer
-- Some instructions add metadada instead of layers
-- ENTRYPOINT = default app for image/container
+1. Instructions for building images
+
+   - CAPITALIZE instructions
+   - <'INSTRUCTION'> <'value'>
+   - FROM = base image
+   - Good practice to list maintainer
+   - RUN = execute command and create layer
+   - COPY = copy code into image as new layer
+   - Some instructions add metadada instead of layers
+   - ENTRYPOINT = default app for image/container
+
+2. create a `Dockerfile`
+
+3. Build your image
+
+```bash
+docker image build -t `myAppNameTag` .
+```
+
+4. running the image
+
+```bash
+docker image ls
+```
+
+```bash
+docker container run -d --name `nameYourContainer` -p `host-port`:`container-port` `myAppNameTag`
+```
 
 ### Dig Deeper
 
+**Build Context**: Location of my code in my machine.
+
+It is possible to build from git repo as well! Run the following command to run from git repo:
+
+```bash
+docker image build -t thesaurus https://github.com/mehdihasan/springboot-thesaurus-app.git
+```
+
 ### Multi-stage Builds
+
+Very interesting topics! The concept is to build my expected image step by step. In the last stage, may be the production build, it will going to take only the output layers from the each stage, and build the final image out from those! Do you know why do they put the Dockerfile into the app directory other than the root directory?
+
+[example](https://github.com/mehdihasan/atsea-sample-shop-app/blob/master/app/Dockerfile)
+
+## Working with Containers
+
+the most atomic unit - container.
+in k8s - pod.
+
+1. here `-it` stands for `interactive terminal`
+
+```bash
+docker container run -it alpine sh
+```
+
+2. Here what is `-d` and `sleep 1d` doing?
+
+```bash
+docker container run -d alpine sleep 1d
+```
+
+3. You might want to run a single command inside a container. And you are lazy enough to avoid get inside the container using the `-it` command.
+
+```bash
+docker container exec <CONTAINER-ID> ls -al
+docker container exec <CONTAINER-ID> cat newFile
+```
+
+4. do you want to remove all your containers?
+
+```bash
+docker container rm $(docker container ls -aq) -f
+```
+
+### Container & logging
+
+#### Engine/Daemon logs
+
+**Linux**
+
+- systemd
+  - journalctl -u docker.service
+- non systemd
+  - try /var/log/messages
+
+**Windows**
+~/AppData/Local/Docker
+
+#### Container/App logs
+
+- STDOUT, STDERR
+- It is possible to collect the docker logs and forward those to existing logging solution system like
+  Syslog, Gelf, Splunk.
+- we can set default logging driver in `daemon.json`
+- it is possible to override per container with `--log-driver` & || `--log-opts`
+- inspect logs with `docker logs <container>`
+
+## Building Secure Swarm
+
+### The big picture
+
+### Swarm clustering deep dive
+
+### Building a secure swarm
+
+### Orchestration
