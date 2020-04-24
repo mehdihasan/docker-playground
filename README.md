@@ -243,10 +243,64 @@ docker container rm $(docker container ls -aq) -f
 
 ## Building Secure Swarm
 
+He just showed how to create a swarm and then create some nodes. I was not sure what did me ment by nodes. Probably different machines into same network.
+
 ### The big picture
 
 ### Swarm clustering deep dive
 
 ### Building a secure swarm
 
+- check if docker swarm is enabled
+
+  ```bash
+  docker system info
+  ```
+
+- initialize docker swarm with the following command
+
+  ```bash
+  docker swarm init
+  ```
+
+- check the command to add manager to the docker swarm
+
+  ```bash
+  docker swarm join-token manager
+  ```
+
+- list out all docker nodes
+  ```bash
+  docker node ls
+  ```
+
 ### Orchestration
+
+## [Container Networking](https://app.pluralsight.com/library/courses/docker-networking/table-of-contents)
+
+He has a different course for this. So I am skipping this module.
+
+## Working with volumes and persistent data
+
+using docker volume, we can take leverage of persistent data.
+
+to know mode about the commond run the following
+
+```bash
+docker volume
+```
+
+to create a container with persistant data, run the following command
+
+```bash
+docker container run -dit --name voltest \
+--mount source=ubervol,target=/vol alpine:latest
+```
+
+you can see the created volume in the host machine in the following directory
+
+```bash
+sudo ls -al /var/lib/docker/volumes/
+```
+
+do you want to test if file really writes to the host machine's location? TRY IT BY YOURSELF.
