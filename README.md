@@ -303,4 +303,6 @@ you can see the created volume in the host machine in the following directory
 sudo ls -al /var/lib/docker/volumes/
 ```
 
-do you want to test if file really writes to the host machine's location? TRY IT BY YOURSELF.
+do you want to test if file really writes to the host machine's location? _TRY IT BY YOURSELF_.
+
+## Working with secrets
