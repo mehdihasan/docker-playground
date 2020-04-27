@@ -278,7 +278,15 @@ He just showed how to create a swarm and then create some nodes. I was not sure 
 
 ## [Container Networking](https://app.pluralsight.com/library/courses/docker-networking/table-of-contents)
 
-He has a different course for this. So I am skipping this module.
+### The three pillars of Docker Networking
+
+[Must read item for docker networking: Docker networking Grand Design DNA](https://github.com/moby/libnetwork/blob/master/docs/design.md)
+
+1. CNM (Container Network Model)
+2. Libnetwork
+3. Drivers
+
+You should know about [CNI](#) as well. It is about K8s networking.
 
 ## Working with volumes and persistent data
 
