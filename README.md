@@ -288,6 +288,76 @@ He just showed how to create a swarm and then create some nodes. I was not sure 
 
 You should know about [CNI](#) as well. It is about K8s networking.
 
+
+### Use Cases & Drivers
+
+AGENDA
+
+#### Single Host Networking (with the bridge driver)
+we are goin to create a user defined bridge network in docker host.
+
+Let's create a new network
+
+```bash
+docker network create -d bridge --subnet 10.0.1.1/24 ps-bridge
+```
+
+Now, I want to test the bridge. Let's install the testing kit first
+```bash
+sudo apt install bridge-utils
+```
+after the package installed, run the following command:
+```bash
+brctl show
+ip link show
+```
+
+Now, let's run 2 containers on the bridge:
+```bash
+docker run -dt --name c1 --network ps-bridge alpine sleep 1d
+docker run -dt --name c2 --network ps-bridge alpine sleep 1d
+```
+
+Now, inspect the container:
+```bash
+docker network inspect ps-bridge
+```
+
+Now, if you run the following command you will see that there are two interfaces connected to the bridge
+```bash
+brctl show
+```
+
+Now, let's get inside into one of our docker container and ping the other one:
+```bash
+docker exec -it c1 sh
+```
+
+Now, you can check own IP and ping the other instance
+```bash
+# ip a
+# ping c2
+```
+
+_So, we have created a network bridge in which 2 instances are connected._
+
+**Now, how can other docker instances can able to access any of the instance outsside of this network?**
+> we need to publish a container service in a host port
+
+To, show a demo, let's make another container running in port 8080 in the container and map to the 5000 port in the host machine
+```bash
+docker run -d --name web1 \
+--network ps-bridge \
+-p 5000:8080 \
+nigelpoulton/pluralsight-docker-ci
+```
+
+DONE! Now you can access the web1 container by going http://localhost:5000
+
+#### Multi-host networking
+
+#### Working with Existing networks
+
 ## Working with volumes and persistent data
 
 using docker volume, we can take leverage of persistent data.
