@@ -14,6 +14,8 @@ sudo usermod -aG docker <your-user-name>
 
 Operating System, Container, Isolation, Control Groups, Namespaces
 
+![adocker-architecture](./diagrams/docker-architecture.jpg)
+
 ### Kernel primitives
 
 - [Control Groups](https://en.wikipedia.org/wiki/Cgroups) (C Groups / in Windows Job Objects): grouping objects and setting limit
