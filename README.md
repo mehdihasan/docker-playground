@@ -434,4 +434,4 @@ sudo ls -al /var/lib/docker/volumes/
 
 do you want to test if file really writes to the host machine's location? _TRY IT BY YOURSELF_.
 
-## Working with secrets
+## [Working with secrets](./ch10-working-with-secrets/)
