@@ -1,3 +1,39 @@
+# Docker Playground
+
+- [Docker Playground](#docker-playground)
+  - [Installing Docker](#installing-docker)
+  - [Architecture and Theory](#architecture-and-theory)
+    - [Kernel primitives](#kernel-primitives)
+    - [Docker Engine](#docker-engine)
+    - [DE for windows](#de-for-windows)
+  - [Working with Images](#working-with-images)
+    - [Docker images](#docker-images)
+      - [Manifest file](#manifest-file)
+    - [Registries](#registries)
+      - [Best practices](#best-practices)
+  - [Containerizing an App](#containerizing-an-app)
+    - [Discussion](#discussion)
+    - [Containerize an App](#containerize-an-app)
+    - [Dig Deeper](#dig-deeper)
+    - [Multi-stage Builds](#multi-stage-builds)
+  - [Working with Containers](#working-with-containers)
+    - [Container \& logging](#container--logging)
+      - [Engine/Daemon logs](#enginedaemon-logs)
+      - [Container/App logs](#containerapp-logs)
+  - [Building Secure Swarm](#building-secure-swarm)
+    - [The big picture](#the-big-picture)
+    - [Swarm clustering deep dive](#swarm-clustering-deep-dive)
+    - [Building a secure swarm](#building-a-secure-swarm)
+    - [Orchestration](#orchestration)
+  - [Container Networking](#container-networking)
+    - [The three pillars of Docker Networking](#the-three-pillars-of-docker-networking)
+    - [Use Cases \& Drivers](#use-cases--drivers)
+      - [Single Host Networking (with the bridge driver)](#single-host-networking-with-the-bridge-driver)
+      - [Multi-host networking](#multi-host-networking)
+      - [Working with Existing networks](#working-with-existing-networks)
+  - [Working with volumes and persistent data](#working-with-volumes-and-persistent-data)
+  - [Working with secrets](#working-with-secrets)
+
 ## Installing Docker
 
 ```bash
@@ -66,18 +102,18 @@ to play with the manifest command, you need to enable docker experimental featur
 1. create a file in .docker/config.json
 2. paste the following code into the file:
 
-```json
-{
-  "experimental": "enabled",
-  "debug": true
-}
-```
+  ```json
+  {
+    "experimental": "enabled",
+    "debug": true
+  }
+  ```
 
 3. do want to now more about a manifest file? run the following command
 
-```bash
-docker manifest inspect <imagename>
-```
+  ```bash
+  docker manifest inspect <imagename>
+  ```
 
 4. what does `docker pull <imagename>` command do?
 
@@ -93,9 +129,11 @@ docker manifest inspect <imagename>
    ```
 
 6. To see the docker system info:
+
    ```bash
    docker system info
    ```
+
 7. The file system inside a container will be the base layer file system, not the host machine's file system.
 
 8. do you want to see the layer history of an docker image?
@@ -111,6 +149,7 @@ docker manifest inspect <imagename>
    ```
 
 10. and finally you may want to free up space by deleting any unused image?
+
     ```bash
     docker image rm <imagename>
     ```
@@ -272,6 +311,7 @@ He just showed how to create a swarm and then create some nodes. I was not sure 
   ```
 
 - list out all docker nodes
+
   ```bash
   docker node ls
   ```
@@ -288,14 +328,14 @@ He just showed how to create a swarm and then create some nodes. I was not sure 
 2. Libnetwork
 3. Drivers
 
-You should know about [CNI](#) as well. It is about K8s networking.
-
+You should know about [CNI](#https://github.com/containernetworking/cni) as well. It is about K8s networking.
 
 ### Use Cases & Drivers
 
 AGENDA
 
 #### Single Host Networking (with the bridge driver)
+
 we are goin to create a user defined bridge network in docker host.
 
 Let's create a new network
@@ -305,37 +345,45 @@ docker network create -d bridge --subnet 10.0.1.1/24 ps-bridge
 ```
 
 Now, I want to test the bridge. Let's install the testing kit first
+
 ```bash
 sudo apt install bridge-utils
 ```
+
 after the package installed, run the following command:
+
 ```bash
 brctl show
 ip link show
 ```
 
 Now, let's run 2 containers on the bridge:
+
 ```bash
 docker run -dt --name c1 --network ps-bridge alpine sleep 1d
 docker run -dt --name c2 --network ps-bridge alpine sleep 1d
 ```
 
 Now, inspect the container:
+
 ```bash
 docker network inspect ps-bridge
 ```
 
 Now, if you run the following command you will see that there are two interfaces connected to the bridge
+
 ```bash
 brctl show
 ```
 
 Now, let's get inside into one of our docker container and ping the other one:
+
 ```bash
 docker exec -it c1 sh
 ```
 
 Now, you can check own IP and ping the other instance
+
 ```bash
 # ip a
 # ping c2
@@ -347,6 +395,7 @@ _So, we have created a network bridge in which 2 instances are connected._
 > we need to publish a container service in a host port
 
 To, show a demo, let's make another container running in port 8080 in the container and map to the 5000 port in the host machine
+
 ```bash
 docker run -d --name web1 \
 --network ps-bridge \
@@ -354,7 +403,7 @@ docker run -d --name web1 \
 nigelpoulton/pluralsight-docker-ci
 ```
 
-DONE! Now you can access the web1 container by going http://localhost:5000
+DONE! Now you can access the web1 container by going <http://localhost:5000>
 
 #### Multi-host networking
 
